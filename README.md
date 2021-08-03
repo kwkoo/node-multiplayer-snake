@@ -5,6 +5,12 @@
 
 A multiplayer snake game built on NodeJs, Express, socket.io, and JavaScript ES6.  No unnecessary libraries.
 
+Modifications made to [simondiep/node-multiplayer-snake](https://github.com/simondiep/node-multiplayer-snake):
+
+* Swipe to change directions when playing on mobile devices
+* Button to show QR code of current URL
+* Changed default port to 8080
+
 Live demo [Here](https://node-multiplayer-snake.herokuapp.com/)
 
 ### Getting Started

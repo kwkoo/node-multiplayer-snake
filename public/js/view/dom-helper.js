@@ -58,6 +58,14 @@ export default class DomHelper {
         return document.getElementById('full-screen-button');
     }
 
+    static getQRButton() {
+        return document.getElementById('qr-button');
+    }
+
+    static getQRPanel() {
+        return document.getElementById('qr-panel');
+    }
+
     static getGameBoardDiv() {
         return document.getElementById('game-board');
     }

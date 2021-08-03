@@ -14,6 +14,7 @@
                     <a href="#top" id="play-or-watch-button" title="Spectate or rejoin game">Watch</a>
                     <a href="#playerSettings" title="Go to settings">Settings</a>
                     <button id="full-screen-button" title="Go into full-screen mode"/>
+                    <button id="qr-button" title="Display QR code"/>
                 </div>
             </div>
             <div id="kill-messages">
@@ -23,7 +24,10 @@
                     <div class="left-content">
                         <div id="game-board"></div>
                     </div>
-                    <div class="right-content">
+                    <div id="qr-panel" class="right-content" style="display: none;">
+                        <canvas id="qr"></canvas>
+                    </div>
+                    <div id="stats" class="right-content">
                         <div id="player-stats">
                         </div>
                         <div id="notifications">
@@ -89,5 +93,6 @@
         <!-- socket.io client is exposed by the server.  This sets a global variable io -->
         <script src="/socket.io/socket.io.js"></script>
         <script src="js/main.js" type="module"></script>
+        <script src="js/qrious.js"></script>
     </body>
 </html>

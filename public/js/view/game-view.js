@@ -207,6 +207,67 @@ export default class GameView {
         }
     }
 
+    // code from https://stackoverflow.com/a/23230280
+    _handleTouchStart(e) {
+        const firstTouch = e.touches[0];
+        this.xDown = firstTouch.clientX;
+        this.yDown = firstTouch.clientY;
+    }
+
+    _handleTouchMove(e) {
+        if (!this.xDown || !this.yDown) {
+            return;
+        }
+        let xUp = e.touches[0].clientX;
+        let yUp = e.touches[0].clientY;
+
+        let xDiff = this.xDown - xUp;
+        let yDiff = this.yDown - yUp;
+
+        if (Math.abs(xDiff) > Math.abs(yDiff)) {
+            if (xDiff > 0) {
+                // right swipe
+                this.keyDownCallback(37);
+                e.preventDefault();
+            } else {
+                // left swipe
+                this.keyDownCallback(39);
+                e.preventDefault();
+            }
+        } else {
+            if (yDiff > 0) {
+                // down swipe
+                this.keyDownCallback(38);
+                e.preventDefault();
+            } else {
+                // up swipe
+                this.keyDownCallback(40);
+                e.preventDefault();
+            }
+        }
+
+        this.xDown = null;
+        this.yDown = null;
+    }
+
+    _showQRPanel() {
+        if (DomHelper.getQRPanel().style.display == 'none') {
+            // show QR div
+            let url = document.location.protocol + '//' + document.location.host;
+            let qr = new QRious({
+                element: document.getElementById('qr'),
+                size: 300,
+                value: url
+            });
+
+            DomHelper.getQRPanel().style.display = 'block';
+            document.getElementById('stats').style.display = 'none';
+        } else {
+            DomHelper.getQRPanel().style.display = 'none';
+            document.getElementById('stats').style.display = 'block';
+        }
+    }
+
     _initEventHandling(botChangeCallback, foodChangeCallback, muteAudioCallback, playerColorChangeCallback, speedChangeCallback,
         startLengthChangeCallback, toggleGridLinesCallback) {
         // Player controls
@@ -221,7 +282,10 @@ export default class GameView {
         DomHelper.getToggleGridLinesButton().addEventListener('click', toggleGridLinesCallback);
         DomHelper.getToggleSoundButton().addEventListener('click', muteAudioCallback);
         DomHelper.getFullScreenButton().addEventListener('click', DomHelper.toggleFullScreenMode);
+        DomHelper.getQRButton().addEventListener('click', this._showQRPanel);
         window.addEventListener('keydown', this._handleKeyDown.bind(this), true);
+        DomHelper.getGameBoardDiv().addEventListener('touchstart', this._handleTouchStart.bind(this), false);
+        DomHelper.getGameBoardDiv().addEventListener('touchmove', this._handleTouchMove.bind(this), false);
 
         // Admin controls
         DomHelper.getIncreaseBotsButton().addEventListener('click',
